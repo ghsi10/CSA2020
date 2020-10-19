@@ -2,8 +2,9 @@ import socket
 import struct
 import binascii
 import requests
-from scapy.all import  *
+import chardet
 
+from scapy.all import  *
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("52.28.255.56", 1080))
 s.send(bytearray.fromhex("5a01fedd749c2e"))
@@ -25,13 +26,16 @@ for i in range(0, len(sh), 2):
 s.send(mb)
 
 
-s.send(bytearray.fromhex("5a010001c0a8ad140050624A3063")) # New ip
+s.send(bytearray.fromhex("5a010001c0a8ad140050624A3063"))
 s.recv(100)
-request = 'GET /Flag.jpg HTTP/1.1\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36\r\nHost: www.tutorialspoint.com\r\nAccept-Language: en-us\r\nConnection: Keep-Alive\r\n\r\n'.encode('hex')
+request = 'GET /Flag.jpg HTTP/1.1\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36\r\nHost: www.tutorialspoint.com\r\nAccept-Language: en-us\r\nConnection: Keep-Alive\r\n\r\n'
 
-s.send(bytearray.fromhex(request))
+s.send(request.encode())
+
 with open('Flag.jpg','ab') as file:
     for i in range(75):
         res = s.recv(2048)
         file.write(res)
-        print(res)
+
+# run binwalk -D .* Flag.jpg --> get the flag
+
