@@ -1,0 +1,3 @@
+1) Run binwalk and get image
+2) Decde it in https://stylesuxx.github.io/steganography/
+3) run 2 times base64 on first 48 chars.
